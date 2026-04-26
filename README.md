@@ -75,7 +75,7 @@ Follow these steps to run the AgriSense platform locally on your machine.
 
 ### 1. Clone the repository
 ```bash
-git clone <your-repository-url>
+git clone [<your-repository-url>](https://github.com/hamza-ait-benayad/AgriSense.git)
 cd AgriSense
 ```
 
