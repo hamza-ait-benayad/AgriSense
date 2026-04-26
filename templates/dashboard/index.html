@@ -284,6 +284,19 @@
       </div>
     </section>
 
+    <section class="chart-section" aria-label="Sensor Data Chart">
+      <div class="section-header-row">
+        <div class="section-label">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="section-icon">
+            <path d="M3 3v14h14M7 13l3-3 4 4 3-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Live Data Plot
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas id="sensorChart"></canvas>
+      </div>
+    </section>
 
     <!-- ── HISTORY TABLE ────────────────────────────────────────── -->
     <section class="history-section" aria-label="Sensor reading history">
@@ -331,6 +344,7 @@
   <!-- ── TOAST NOTIFICATION ─────────────────────────────────── -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="{% static 'js/dashboard.js' %}"></script>
 </body>
 </html>

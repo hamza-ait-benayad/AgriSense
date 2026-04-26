@@ -8,6 +8,8 @@ const API = {
   analytics: '/api/recommendation/analytics/',
 };
 
+let sensorChart = null;
+
 const POLL_INTERVAL_MS = 5000;
 const CIRCUIT_LEN = 400;
 
@@ -244,6 +246,83 @@ function updateAnalytics(data) {
   dom.analyticsTrend.textContent = data.trend || '—';
 }
 
+
+function initChart() {
+  const ctx = document.getElementById('sensorChart').getContext('2d');
+  sensorChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: [],
+      datasets: [
+        {
+          label: 'Moisture (%)',
+          data: [],
+          borderColor: '#38bdf8', // Blue
+          backgroundColor: 'rgba(56, 189, 248, 0.1)',
+          yAxisID: 'y',
+          tension: 0.4, // Makes the line smooth/curved
+          fill: true
+        },
+        {
+          label: 'Temperature (°C)',
+          data: [],
+          borderColor: '#fb923c', // Orange
+          backgroundColor: 'rgba(251, 146, 60, 0.1)',
+          yAxisID: 'y1',
+          tension: 0.4,
+          fill: true
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      scales: {
+        y: {
+          type: 'linear',
+          display: true,
+          position: 'left',
+          title: { display: true, text: 'Moisture (%)' },
+          min: 0,
+          max: 100
+        },
+        y1: {
+          type: 'linear',
+          display: true,
+          position: 'right',
+          title: { display: true, text: 'Temperature (°C)' },
+          grid: { drawOnChartArea: false } // Hides background grid for temp to keep it clean
+        }
+      }
+    }
+  });
+}
+
+function updateChart(readings) {
+  if (readings.length === 0) return;
+  
+  if (!sensorChart) {
+    initChart();
+  }
+
+  // The API returns newest first. We need to reverse it so time moves left-to-right.
+  const chartData = [...readings].reverse();
+
+  // Extract time, moisture, and temperature arrays
+  const labels = chartData.map(r => {
+    const d = new Date(r.created_at);
+    return d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  });
+  const moistures = chartData.map(r => r.moisture);
+  const temps = chartData.map(r => r.temperature);
+
+  // Inject the new data into the chart
+  sensorChart.data.labels = labels;
+  sensorChart.data.datasets[0].data = moistures;
+  sensorChart.data.datasets[1].data = temps;
+  sensorChart.update(); // Visually update the canvas
+}
+
 function updateHistory(readings) {
   const tbody = dom.historyBody;
   const isNew = readings.length > previousCount;
@@ -315,6 +394,7 @@ async function refresh() {
     updateRecommendation(rec);
     updateHistory(history);
     updateAnalytics(analytics);
+    updateChart(history);
   } catch (err) {
     setConnected(false);
     console.error('[AgriSense] Refresh error:', err);
