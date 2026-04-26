@@ -180,7 +180,13 @@
           </div>
           <div class="rec-action" id="recAction">Loading…</div>
           <div class="rec-message" id="recMessage">Fetching sensor data…</div>
+
+          <div class="rec-meta">
+            <span class="rec-meta-pill" id="weatherMode">Weather: —</span>
+            <span class="rec-meta-pill" id="rainExpected">Rain soon: —</span>
+          </div>
         </div>
+
 
         <div class="moisture-bar-container">
           <div class="moisture-bar-label">
@@ -221,6 +227,63 @@
       </div>
       <p class="sim-note">These buttons simulate ESP32 HTTP POST requests to <code>/api/sensor-data/</code></p>
     </section>
+
+     <!-- ── analytics section ────────────────────────────────────────── -->
+
+     <section class="analytics-section" aria-label="Analytics overview">
+      <div class="section-header-row">
+        <div class="section-label">
+          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="section-icon">
+            <path d="M4 14l3-3 3 2 5-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Analytics Overview
+        </div>
+        <span class="history-count" id="analyticsStatus">Waiting for data</span>
+      </div>
+
+      <div class="analytics-grid">
+        <div class="analytics-tile">
+          <span class="analytics-label">Total Readings</span>
+          <strong class="analytics-value" id="analyticsTotal">—</strong>
+        </div>
+
+        <div class="analytics-tile">
+          <span class="analytics-label">Average Moisture</span>
+          <strong class="analytics-value" id="analyticsAvgMoisture">—</strong>
+        </div>
+
+        <div class="analytics-tile">
+          <span class="analytics-label">Min Moisture</span>
+          <strong class="analytics-value" id="analyticsMinMoisture">—</strong>
+        </div>
+
+        <div class="analytics-tile">
+          <span class="analytics-label">Max Moisture</span>
+          <strong class="analytics-value" id="analyticsMaxMoisture">—</strong>
+        </div>
+
+        <div class="analytics-tile">
+          <span class="analytics-label">Average Temp</span>
+          <strong class="analytics-value" id="analyticsAvgTemp">—</strong>
+        </div>
+
+        <div class="analytics-tile">
+          <span class="analytics-label">Dry Readings</span>
+          <strong class="analytics-value" id="analyticsDryCount">—</strong>
+        </div>
+
+        <div class="analytics-tile analytics-tile--wide">
+          <span class="analytics-label">Moisture Change (24h)</span>
+          <strong class="analytics-value" id="analyticsChange">—</strong>
+        </div>
+
+        <div class="analytics-tile analytics-tile--wide">
+          <span class="analytics-label">Trend</span>
+          <strong class="analytics-value analytics-value--small" id="analyticsTrend">—</strong>
+        </div>
+      </div>
+    </section>
+
 
     <!-- ── HISTORY TABLE ────────────────────────────────────────── -->
     <section class="history-section" aria-label="Sensor reading history">
