@@ -4,3 +4,4 @@ env/
 AgriSense.sqlx
 .env.example
 .env  
+venv
